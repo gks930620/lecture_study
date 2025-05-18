@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<thlogic>
+  <attr sel="#header-nav-home" th:href="@{/}" th:text="'Home'" />
+  <attr sel="#header-nav-admin-members" th:href="@{/admin/members}" th:text="'Member'" />
+  <attr sel="#login" sec:authorize="!isAuthenticated()" th:href="@{/oauth2/authorization/kakao}"/>  <!--카카오 기본 url. 따로 설정하는 거 없음. -->
+  <attr sel="#logout" sec:authorize="isAuthenticated()" th:href="@{/logout}"/>
+</thlogic>

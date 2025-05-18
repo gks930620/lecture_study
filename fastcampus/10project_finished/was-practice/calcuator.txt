@@ -1,0 +1,4 @@
+HTTpRequest객체가 필요할 것 같다.  com.study.RequestLine Header Body 등이 있을 거다.  GET이니까 body없이 진행해보자.
+HTTPMethod
+path, queryString
+
