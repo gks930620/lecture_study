@@ -1,0 +1,15 @@
+# EditorConfig is awesome: https://editorconfig.org
+# 구글에 editorconfig 검색해봐
+[lib/**.js]
+indent_style = space
+indent_size = 2
+
+# Matches the exact files either package.json or .travis.yml
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2
+
+[*.java]
+indent_style = space
+indent_size = 4
+
