@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")    // 테스트용 설정파일 yaml 필요
 //@SpringBootTest   //spring 관련테스트 기능 킴   (스프링서버를 키게 됩니다)
 @DataJpaTest     // 스프링서버를 키긴 키는데  springbootTest보다 가볍고 JPA 관련 빈들만 주입해서 서버 킴.
+    //DATAJPATest는 기본적으로 DB ROLLBACK 이있나?  그렇다!
 class ProductRepositoryTest {
     //어차피 통합테스트라면 springboottTest?
 
