@@ -29,29 +29,9 @@ class ProductRepositoryTest {
     @Test
     void findAllBySellingStatusIn(){
 
-        Product product1 = Product.builder()
-            .productNumber("001")
-            .type(ProductType.HANDMADE)
-            .sellingStatus(ProductSellingStatus.SELLING)
-            .name("아메리카노")
-            .price(4000)
-            .build();
-
-        Product product2 = Product.builder()
-            .productNumber("002")
-            .type(ProductType.HANDMADE)
-            .sellingStatus(ProductSellingStatus.HOLD)
-            .name("카페라떼")
-            .price(4500)
-            .build();
-
-        Product product3 = Product.builder()
-            .productNumber("003")
-            .type(ProductType.HANDMADE)
-            .sellingStatus(ProductSellingStatus.STOP_SELLING)
-            .name("팥빙수")
-            .price(7000)
-            .build();
+        Product product1 = createProduct("001",ProductType.HANDMADE,ProductSellingStatus.SELLING,"아메리카노",3000);
+        Product product2 = createProduct("002", ProductType.HANDMADE, ProductSellingStatus.HOLD, "카페라떼", 4500);
+        Product product3 = createProduct("003", ProductType.HANDMADE, ProductSellingStatus.STOP_SELLING, "팥빙수", 7000);
 
         productRepository.saveAll(List.of(product1,product2,product3));
         //given
@@ -75,29 +55,10 @@ class ProductRepositoryTest {
     @Test
     void findAllByProductNumberIn(){
 
-        Product product1 = Product.builder()
-            .productNumber("001")
-            .type(ProductType.HANDMADE)
-            .sellingStatus(ProductSellingStatus.SELLING)
-            .name("아메리카노")
-            .price(4000)
-            .build();
+        Product product1 = createProduct("001",ProductType.HANDMADE,ProductSellingStatus.SELLING,"아메리카노",3000);
+        Product product2 = createProduct("002", ProductType.HANDMADE, ProductSellingStatus.HOLD, "카페라떼", 4500);
+        Product product3 = createProduct("003", ProductType.HANDMADE, ProductSellingStatus.STOP_SELLING, "팥빙수", 7000);
 
-        Product product2 = Product.builder()
-            .productNumber("002")
-            .type(ProductType.HANDMADE)
-            .sellingStatus(ProductSellingStatus.HOLD)
-            .name("카페라떼")
-            .price(4500)
-            .build();
-
-        Product product3 = Product.builder()
-            .productNumber("003")
-            .type(ProductType.HANDMADE)
-            .sellingStatus(ProductSellingStatus.STOP_SELLING)
-            .name("팥빙수")
-            .price(7000)
-            .build();
 
         productRepository.saveAll(List.of(product1,product2,product3));
         //given
@@ -112,6 +73,51 @@ class ProductRepositoryTest {
                 tuple("001" , "아메리카노" ,ProductSellingStatus.SELLING ),
                 tuple("002" , "카페라떼" ,ProductSellingStatus.HOLD )
             );
+    }
+
+
+
+
+
+    @DisplayName("가장 마지막으로 저장한 상품의 상품번호를 읽어온다.")
+    @Test
+    void findLatestProductNumber(){
+
+        Product product1 = createProduct("001",ProductType.HANDMADE,ProductSellingStatus.SELLING,"아메리카노",3000);
+        Product product2 = createProduct("002", ProductType.HANDMADE, ProductSellingStatus.HOLD, "카페라떼", 4500);
+        String latestProductNumber="003";
+        Product product3 = createProduct(latestProductNumber, ProductType.HANDMADE, ProductSellingStatus.STOP_SELLING, "팥빙수", 7000);
+        productRepository.saveAll(List.of(product1,product2,product3));
+        //given
+        //when
+        String productNumber= productRepository.findLatestProductNumber();
+        assertThat(productNumber).isEqualTo(latestProductNumber);
+    }
+
+    @DisplayName("가장 마지막으로 저장한 상품의 상품번호를 읽어올 때 , 상품이 하나도 없으면 null을 반환한다.")
+    @Test
+    void findLatestProductNumberNodata(){
+        //given
+
+        //when
+        String productNumber= productRepository.findLatestProductNumber();
+
+        assertThat(productNumber).isNull();
+    }
+
+
+
+
+    private static Product createProduct(String productNumber,ProductType productType,ProductSellingStatus status,
+        String name , int price) {
+        Product product1 = Product.builder()
+            .productNumber(productNumber)
+            .type(productType)
+            .sellingStatus(status)
+            .name(name)
+            .price(price)
+            .build();
+        return product1;
     }
 
 

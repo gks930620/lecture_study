@@ -46,7 +46,7 @@ class OrderServiceTest {
     @Autowired
     private StockRepository stockRepository;
 
-   //DB 클리어.   개발할 때 production코드인 service에 Transactional을 거는게 맞는데...
+    //DB 클리어.   개발할 때 production코드인 service에 Transactional을 거는게 맞는데...
     //test에 rollback울 위해 @Trasnactional을 하면  service에  변경감지가 안 이루어져도
     // 정상적으로 동작하는것처럼 보일 수 있음
     // Test에 @Trasactional을 사용할 때는 주의.
