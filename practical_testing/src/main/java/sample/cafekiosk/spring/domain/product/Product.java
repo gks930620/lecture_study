@@ -1,17 +1,12 @@
 package sample.cafekiosk.spring.domain.product;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sample.cafekiosk.spring.domain.BaseEntity;
 
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,12 +30,12 @@ public class Product extends BaseEntity {
     private int price;
 
     @Builder
-    private Product(String productNumber, ProductType type, ProductSellingStatus sellingStatus,
-        String name, int price) {
+    private Product(String productNumber, ProductType type, ProductSellingStatus sellingStatus, String name, int price) {
         this.productNumber = productNumber;
         this.type = type;
         this.sellingStatus = sellingStatus;
         this.name = name;
         this.price = price;
     }
+
 }
