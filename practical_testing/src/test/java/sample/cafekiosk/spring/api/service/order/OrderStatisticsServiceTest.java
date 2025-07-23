@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 import sample.cafekiosk.spring.client.mail.MailSendClient;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistory;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistoryRepository;
@@ -27,8 +30,9 @@ import static org.mockito.Mockito.when;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.SELLING;
 import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
-@SpringBootTest
-class OrderStatisticsServiceTest {
+@Transactional
+@Rollback
+class OrderStatisticsServiceTest  extends IntegrationTestSupport  {
 
     @Autowired
     private OrderStatisticsService orderStatisticsService;
@@ -45,8 +49,6 @@ class OrderStatisticsServiceTest {
     @Autowired
     private MailSendHistoryRepository mailSendHistoryRepository;
 
-    @MockBean
-    private MailSendClient mailSendClient;
 
     @AfterEach
     void tearDown() {
@@ -73,16 +75,12 @@ class OrderStatisticsServiceTest {
         Order order3 = createPaymentCompletedOrder(LocalDateTime.of(2023, 3, 5, 23, 59, 59), products);
         Order order4 = createPaymentCompletedOrder(LocalDateTime.of(2023, 3, 6, 0, 0), products);
 
-
-        //mailSendClient이 mock  실제 여기의 내용이 실행되는게 아니라  mailSendClient는 아래와 같은 결과가 나오게 될거다!! 라고 test에 정의
         // stubbing
         when(mailSendClient.sendEmail(any(String.class), any(String.class), any(String.class), any(String.class)))
             .thenReturn(true);
 
         // when
         boolean result = orderStatisticsService.sendOrderStatisticsMail(LocalDate.of(2023, 3, 5), "test@test.com");
-        // 이 안에서 mailSendClient의 sendMail이 실행되는데
-        // 실제로 메일을 보내는게 아니라 위의 stubbing 된 것처럼 동작하도록 가정한거
 
         // then
         assertThat(result).isTrue();
